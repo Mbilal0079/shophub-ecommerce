@@ -13,6 +13,11 @@ import productRoutes from './routes/productRoutes.js';
 // Load environment variables
 dotenv.config();
 
+// Allowed origins from env (supports comma-separated list)
+const allowedOrigins = (process.env.FRONTEND_URL || 'http://localhost:5173')
+  .split(',')
+  .map((url) => url.trim());
+
 // Connect to MongoDB
 connectDB();
 
@@ -23,7 +28,7 @@ const httpServer = createServer(app);
 // Initialize Socket.io for real-time features
 const io = new Server(httpServer, {
   cors: {
-    origin: 'http://localhost:5173',
+    origin: allowedOrigins,
     methods: ['GET', 'POST'],
     credentials: true
   }
@@ -31,7 +36,7 @@ const io = new Server(httpServer, {
 
 // CORS Configuration - IMPORTANT for frontend connection
 app.use(cors({
-  origin: 'http://localhost:5173',
+  origin: allowedOrigins,
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
