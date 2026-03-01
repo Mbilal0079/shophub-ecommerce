@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // Base URL for API - Make sure this matches your backend port
-const API_URL = 'http://localhost:5000/api';
+const API_URL =  'https://shophub-ecommerce-production.up.railway.app/api';
 
 // Create axios instance
 const api = axios.create({
